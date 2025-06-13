@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Pickup | Sheridan E-Waste Rescue</title>
+  <meta name="description" content="Schedule a free electronics recycling pickup in Sheridan, WY with Sheridan E-Waste Rescue." />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0fdf4;
+      color: #1a202c;
+    }
+    header {
+      background: url('banner.png') center/cover no-repeat;
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
+    header img.logo {
+      width: 200px;
+      height: auto;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+    }
+    nav {
+      background-color: #d1fae5;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      display: inline-block;
+      margin: 0 10px;
+      color: #065f46;
+      text-decoration: none;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    section {
+      max-width: 800px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #065f46;
+      color: white;
+      padding: 12px 20px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    footer {
+      background-color: #1f2937;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Sheridan E-Waste Rescue Logo" class="logo" />
+  <h1>Schedule a Pickup</h1>
+  <p>Fill out the form below and we’ll get in touch to arrange your free electronics pickup.</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="process.html">Our Process</a>
+  <a href="services.html">Who We Serve</a>
+  <a href="why-reuse.html">Why Reuse</a>
+  <a href="schedule.html">Schedule Pickup</a>
+</nav>
+
+<section>
+  <h2>Request a Free Pickup</h2>
+  <form name="pickup" method="POST" data-netlify="true" action="thank-you.html">
+    <input type="hidden" name="form-name" value="pickup" />
+
+    <label for="name">Your Name</label>
+    <input type="text" name="name" id="name" required />
+
+    <label for="email">Email Address</label>
+    <input type="email" name="email" id="email" required />
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" name="phone" id="phone" required />
+
+    <label for="address">Pickup Address</label>
+    <textarea name="address" id="address" rows="3" required></textarea>
+
+    <label for="date">Preferred Pickup Date</label>
+    <input type="text" name="date" id="date" placeholder="Select a date" required />
+
+    <label for="time">Preferred Pickup Time</label>
+    <select name="time" id="time" required>
+      <option value="">Choose a date first</option>
+    </select>
+
+    <label for="items">What are you recycling?</label>
+    <textarea name="items" id="items" rows="4" required></textarea>
+
+    <button type="submit">Submit Pickup Request</button>
+  </form>
+</section>
+
+<footer>
+  Sheridan E-Waste Rescue is powered by Mountain West Merchandise LLC<br />
+  Contact: info@sheridanewaste.com | (307) 310-7339
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  const timeSelect = document.getElementById('time');
+  const dateInput = document.getElementById('date');
+
+  const weekdayTimes = ["16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
+  const saturdayTimes = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+
+  flatpickr(dateInput, {
+    minDate: "today",
+    disable: [
+      function(date) {
+        return (date.getDay() === 0); // disable Sundays
+      }
+    ],
+    onChange: function(selectedDates) {
+      const selectedDate = selectedDates[0];
+      const day = selectedDate.getDay();
+
+      const options = (day >= 1 && day <= 5) ? weekdayTimes : saturdayTimes;
+
+      timeSelect.innerHTML = '<option value="">Choose a time</option>';
+      options.forEach(time => {
+        const opt = document.createElement("option");
+        opt.value = time;
+        opt.textContent = time;
+        timeSelect.appendChild(opt);
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
